@@ -58,6 +58,9 @@ public class SpreadingGravelBlock extends FallingBlock {
         return Optional.ofNullable(bestPos);
     }
 
+    // No depth cap: accepted trade-off — ticks are infrequent so void-pit depth scan is not a perf concern.
+    // No isLoaded guard inside the loop: chunks load as full vertical columns, so if `from` is loaded,
+    // all blocks directly below it in the same column are also loaded.
     static int countFallDepth(Level level, BlockPos from) {
         int depth = 0;
         BlockPos check = from.below();
