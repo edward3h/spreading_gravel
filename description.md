@@ -9,3 +9,7 @@ Spreading Gravel behaves like vanilla gravel when falling straight down. When it
 ## Crafting
 
 Combine 3 Gravel and 1 Sand in any arrangement (shapeless recipe). The recipe is automatically unlocked in the recipe book when you pick up Gravel.
+
+## Modpack Permissions
+
+You are welcome to include this mod in your modpack.
