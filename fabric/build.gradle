@@ -29,6 +29,11 @@ jar {
 }
 
 processResources {
+    def replaceProperties = [mod_version: mod_version]
+    inputs.properties replaceProperties
+    filesMatching('fabric.mod.json') {
+        expand replaceProperties
+    }
     // Exclude the common module's stub neoforge.mods.toml (harmless in Fabric jar, but keep consistent)
     from(project(':common').sourceSets.main.resources) {
         exclude 'META-INF/neoforge.mods.toml'

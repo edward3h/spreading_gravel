@@ -8,6 +8,7 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 
 public class SpreadingGravelFabric implements ModInitializer {
@@ -15,7 +16,7 @@ public class SpreadingGravelFabric implements ModInitializer {
     @Override
     public void onInitialize() {
         SpreadingGravelBlock block = new SpreadingGravelBlock(
-            net.minecraft.world.level.block.Block.Properties.ofFullCopy(Blocks.GRAVEL)
+            Block.Properties.ofFullCopy(Blocks.GRAVEL)
         );
 
         Registry.register(

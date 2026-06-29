@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    { "item": "minecraft:gravel" },
+    { "item": "minecraft:gravel" },
+    { "item": "minecraft:gravel" },
+    { "item": "minecraft:sand" }
+  ],
+  "result": {
+    "id": "spreading_gravel:spreading_gravel",
+    "count": 3
+  }
+}

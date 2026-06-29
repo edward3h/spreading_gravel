@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "spreading_gravel",
-  "version": "${mod_version}",
+  "version": "1.0.0",
   "name": "Spreading Gravel",
   "description": "Adds Spreading Gravel, a gravity block that flows sideways toward the deepest nearby drop.",
   "authors": ["edward3h"],
