@@ -1,6 +1,6 @@
 modLoader = "javafml"
 loaderVersion = "${neoforge_loader_version_range}"
-license = "MIT"
+license = "Apache-2.0"
 
 [[mods]]
 modId = "spreading_gravel"

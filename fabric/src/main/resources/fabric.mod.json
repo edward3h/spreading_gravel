@@ -5,7 +5,7 @@
   "name": "Spreading Gravel",
   "description": "Adds Spreading Gravel, a gravity block that flows sideways toward the deepest nearby drop.",
   "authors": ["edward3h"],
-  "license": "MIT",
+  "license": "Apache-2.0",
   "environment": "*",
   "entrypoints": {
     "main": [
