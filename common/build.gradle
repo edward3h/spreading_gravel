@@ -1,0 +1,24 @@
+plugins {
+    id 'net.neoforged.gradle.userdev' version '7.0.171'
+}
+
+java {
+    toolchain.languageVersion = JavaLanguageVersion.of(21)
+}
+
+// Suppress run configurations for common — it is not a runnable project
+runs {}
+
+dependencies {
+    // MC via NeoForge. Use `implementation` (not `compileOnly`) so NeoForge Gradle 7.x
+    // sets up the decompiled MC environment for both compilation and test runtime.
+    implementation "net.neoforged:neoforge:${neoforge_version}"
+
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.10.0'
+    testImplementation 'org.mockito:mockito-core:5.8.0'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+test {
+    useJUnitPlatform()
+}

@@ -1,0 +1,33 @@
+plugins {
+    id 'net.neoforged.gradle.userdev' version '7.0.171'
+}
+
+// Ensure common is evaluated before this project accesses its sourceSets
+evaluationDependsOn(':common')
+
+java {
+    toolchain.languageVersion = JavaLanguageVersion.of(21)
+}
+
+runs {
+    // NeoForge Gradle 7.x API: modSource (singular), not modSources.add()
+    configureEach {
+        modSource project(':common').sourceSets.main
+    }
+}
+
+dependencies {
+    implementation "net.neoforged:neoforge:${neoforge_version}"
+    compileOnly(project(':common')) { transitive = false }
+}
+
+sourceSets.main.compileClasspath += project(':common').sourceSets.main.output
+sourceSets.main.runtimeClasspath += project(':common').sourceSets.main.output
+
+processResources {
+    // Exclude the common module's stub neoforge.mods.toml so it doesn't overwrite
+    // neoforge/src/main/resources/META-INF/neoforge.mods.toml
+    from(project(':common').sourceSets.main.resources) {
+        exclude 'META-INF/neoforge.mods.toml'
+    }
+}

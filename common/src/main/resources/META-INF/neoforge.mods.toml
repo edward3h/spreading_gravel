@@ -1,0 +1,8 @@
+modLoader = "javafml"
+loaderVersion = "[1,)"
+license = "MIT"
+
+[[mods]]
+modId = "spreading_gravel_common_stub"
+version = "0.0.0"
+displayName = "Spreading Gravel (common stub — not a real mod)"

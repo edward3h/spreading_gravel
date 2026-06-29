@@ -1,0 +1,33 @@
+plugins {
+    id 'fabric-loom' version '1.7.+'
+}
+
+// Ensure common is evaluated before this project accesses its sourceSets
+evaluationDependsOn(':common')
+
+java {
+    toolchain.languageVersion = JavaLanguageVersion.of(21)
+}
+
+loom {
+    // no mixin config needed for this mod
+}
+
+dependencies {
+    minecraft "com.mojang:minecraft:${minecraft_version}"
+    mappings loom.officialMojangMappings()
+    modImplementation "net.fabricmc:fabric-loader:${fabric_loader_version}"
+
+    // Common module — same Mojang mappings, no remapping needed
+    compileOnly(project(':common')) { transitive = false }
+}
+
+sourceSets.main.compileClasspath += project(':common').sourceSets.main.output
+sourceSets.main.runtimeClasspath += project(':common').sourceSets.main.output
+
+processResources {
+    // Exclude the common module's stub neoforge.mods.toml (harmless in Fabric jar, but keep consistent)
+    from(project(':common').sourceSets.main.resources) {
+        exclude 'META-INF/neoforge.mods.toml'
+    }
+}
