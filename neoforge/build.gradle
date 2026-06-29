@@ -2,27 +2,34 @@ plugins {
     id 'net.neoforged.gradle.userdev' version '7.0.171'
 }
 
-// Ensure common is evaluated before this project accesses its sourceSets
-evaluationDependsOn(':common')
-
 java {
     toolchain.languageVersion = JavaLanguageVersion.of(21)
 }
 
+// Include common's source files directly in the neoforge source set so that
+// common and neoforge code compile into a SINGLE module. This avoids JPMS module
+// isolation (which would prevent SpreadingGravelNeoForge from accessing
+// SpreadingGravelBlock across module boundaries in the dev run).
+sourceSets {
+    main {
+        java {
+            srcDir project(':common').file('src/main/java')
+        }
+        resources {
+            srcDir project(':common').file('src/main/resources')
+        }
+    }
+}
+
 runs {
-    // NeoForge Gradle 7.x API: modSource (singular), not modSources.add()
     configureEach {
-        modSource project(':common').sourceSets.main
+        modSource sourceSets.main
     }
 }
 
 dependencies {
     implementation "net.neoforged:neoforge:${neoforge_version}"
-    compileOnly(project(':common')) { transitive = false }
 }
-
-sourceSets.main.compileClasspath += project(':common').sourceSets.main.output
-sourceSets.main.runtimeClasspath += project(':common').sourceSets.main.output
 
 // NeoForge Gradle 7.0.x fails to wire the NeoForm deobfuscated Minecraft binary
 // and the NeoForge API (net.neoforged.*) onto the compileClasspath via its SDK
@@ -33,9 +40,7 @@ sourceSets.main.runtimeClasspath += project(':common').sourceSets.main.output
 afterEvaluate {
     def renameTask = tasks.named('neoFormRename')
     def recompileTask = tasks.named('neoFormRecompile')
-    // Vanilla MC binary (deobfuscated) — provides net.minecraft.* classes
     sourceSets.main.compileClasspath += files(renameTask.get().outputs.files)
-    // NeoForge-patched MC sources (recompiled) — overrides vanilla MC with NF patches
     sourceSets.main.compileClasspath += files(recompileTask.get().destinationDirectory)
     compileJava.dependsOn(renameTask, recompileTask)
 }
@@ -60,10 +65,7 @@ dependencies {
 }
 sourceSets.main.compileClasspath += configurations.neoforgeUniversalCompile
 
-// Bundle the common module's compiled classes into the NeoForge jar so it is
-// a self-contained mod jar (resources are already pulled in via processResources).
 jar {
-    from project(':common').sourceSets.main.output.classesDirs
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 }
 
@@ -77,10 +79,5 @@ processResources {
     inputs.properties replaceProperties
     filesMatching('META-INF/neoforge.mods.toml') {
         expand replaceProperties
-    }
-    // Exclude the common module's stub neoforge.mods.toml so it doesn't overwrite
-    // neoforge/src/main/resources/META-INF/neoforge.mods.toml
-    from(project(':common').sourceSets.main.resources) {
-        exclude 'META-INF/neoforge.mods.toml'
     }
 }
