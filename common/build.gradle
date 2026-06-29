@@ -1,18 +1,17 @@
 plugins {
-    id 'net.neoforged.gradle.userdev' version '7.0.171'
+    id 'fabric-loom' version '1.7.+'
 }
 
 java {
     toolchain.languageVersion = JavaLanguageVersion.of(21)
 }
 
-// Suppress run configurations for common — it is not a runnable project
-runs {}
-
 dependencies {
-    // MC via NeoForge. Use `implementation` (not `compileOnly`) so NeoForge Gradle 7.x
-    // sets up the decompiled MC environment for both compilation and test runtime.
-    implementation "net.neoforged:neoforge:${neoforge_version}"
+    // MC via Fabric Loom — provides Minecraft classes on compile and test classpaths.
+    // Both NeoForge and Fabric use Mojang official mappings, so the compiled bytecode
+    // is compatible with both platforms.
+    minecraft "com.mojang:minecraft:${minecraft_version}"
+    mappings loom.officialMojangMappings()
 
     testImplementation 'org.junit.jupiter:junit-jupiter:5.10.0'
     testImplementation 'org.mockito:mockito-core:5.8.0'
