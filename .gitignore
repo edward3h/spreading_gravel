@@ -3,4 +3,5 @@ build/
 .gradle/
 logs/
 runs/
+.env
 
