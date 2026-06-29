@@ -21,6 +21,13 @@ dependencies {
 sourceSets.main.compileClasspath += project(':common').sourceSets.main.output
 sourceSets.main.runtimeClasspath += project(':common').sourceSets.main.output
 
+// Bundle the common module's compiled classes into the Fabric jar so it is
+// a self-contained mod jar (resources are already pulled in via processResources).
+jar {
+    from project(':common').sourceSets.main.output.classesDirs
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
+
 processResources {
     // Exclude the common module's stub neoforge.mods.toml (harmless in Fabric jar, but keep consistent)
     from(project(':common').sourceSets.main.resources) {
