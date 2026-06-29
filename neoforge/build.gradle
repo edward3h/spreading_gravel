@@ -24,6 +24,48 @@ dependencies {
 sourceSets.main.compileClasspath += project(':common').sourceSets.main.output
 sourceSets.main.runtimeClasspath += project(':common').sourceSets.main.output
 
+// NeoForge Gradle 7.0.x fails to wire the NeoForm deobfuscated Minecraft binary
+// and the NeoForge API (net.neoforged.*) onto the compileClasspath via its SDK
+// mechanism. Wire them manually so javac can resolve all MC and NeoForge symbols.
+afterEvaluate {
+    def renameTask = tasks.named('neoFormRename')
+    def recompileTask = tasks.named('neoFormRecompile')
+    // Vanilla MC binary (deobfuscated) — provides net.minecraft.* classes
+    sourceSets.main.compileClasspath += files(renameTask.get().outputs.files)
+    // NeoForge-patched MC sources (recompiled) — overrides vanilla MC with NF patches
+    sourceSets.main.compileClasspath += files(recompileTask.get().destinationDirectory)
+    compileJava.dependsOn(renameTask, recompileTask)
+}
+
+// The NeoForge API classes (net.neoforged.neoforge.*, net.neoforged.fml.*)
+// live in the "universal" classifier jar, which the ng_dummy_ng stub jar does NOT
+// include. Resolve it through a dedicated detached config to add it to compileClasspath.
+repositories {
+    maven { url = 'https://maven.neoforged.net/releases' }
+}
+configurations {
+    neoforgeUniversalCompile {
+        canBeConsumed = false
+        canBeResolved = true
+    }
+}
+dependencies {
+    neoforgeUniversalCompile("net.neoforged:neoforge:${neoforge_version}") {
+        artifact {
+            classifier = 'universal'
+            type = 'jar'
+        }
+        transitive = false
+    }
+}
+sourceSets.main.compileClasspath += configurations.neoforgeUniversalCompile
+
+// Bundle the common module's compiled classes into the NeoForge jar so it is
+// a self-contained mod jar (resources are already pulled in via processResources).
+jar {
+    from project(':common').sourceSets.main.output.classesDirs
+}
+
 processResources {
     // Exclude the common module's stub neoforge.mods.toml so it doesn't overwrite
     // neoforge/src/main/resources/META-INF/neoforge.mods.toml
