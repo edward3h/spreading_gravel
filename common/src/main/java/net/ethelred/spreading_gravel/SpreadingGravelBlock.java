@@ -36,7 +36,9 @@ public class SpreadingGravelBlock extends FallingBlock {
             return;
         }
         findBestAdjacentPos(level, pos).ifPresent(targetPos -> {
-            if (!level.getBlockState(targetPos).canBeReplaced()) return;
+            if (!level.getBlockState(targetPos).canBeReplaced()) {
+                return;
+            }
             level.setBlock(pos, Blocks.AIR.defaultBlockState(), Block.UPDATE_ALL);
             FallingBlockEntity.fall(level, targetPos, state);
         });
@@ -47,8 +49,12 @@ public class SpreadingGravelBlock extends FallingBlock {
         int bestDepth = 0;
         for (Direction dir : SPREAD_ORDER) {
             BlockPos adj = pos.relative(dir);
-            if (!level.isLoaded(adj)) continue;
-            if (!level.getBlockState(adj).canBeReplaced()) continue;
+            if (!level.isLoaded(adj)) {
+                continue;
+            }
+            if (!level.getBlockState(adj).canBeReplaced()) {
+                continue;
+            }
             int depth = countFallDepth(level, adj);
             if (depth > bestDepth) {
                 bestDepth = depth;
