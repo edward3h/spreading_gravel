@@ -2,6 +2,10 @@ plugins {
     id 'fabric-loom' version '1.7.+'
 }
 
+base {
+    archivesName = "$rootProject.archives_name-$project.name"
+}
+
 // Ensure common is evaluated before this project accesses its sourceSets
 evaluationDependsOn(':common')
 

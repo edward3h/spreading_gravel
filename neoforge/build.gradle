@@ -2,6 +2,10 @@ plugins {
     id 'net.neoforged.gradle.userdev' version '7.0.171'
 }
 
+base {
+    archivesName = "$rootProject.archives_name-$project.name"
+}
+
 java {
     toolchain.languageVersion = JavaLanguageVersion.of(21)
 }

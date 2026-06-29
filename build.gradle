@@ -1,4 +1,8 @@
 // Root build — repositories only; each subproject applies its own platform plugin
+allprojects {
+    version = "${rootProject.mod_version}+${rootProject.minecraft_version}"
+}
+
 subprojects {
     repositories {
         maven { url = 'https://maven.neoforged.net/releases' }
