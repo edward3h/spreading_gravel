@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "spreading_gravel:spreading_gravel"
+      }
+    },
+    "has_gravel": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:gravel"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_gravel"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "spreading_gravel:spreading_gravel"
+    ]
+  }
+}

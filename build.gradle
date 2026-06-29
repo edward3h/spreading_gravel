@@ -1,0 +1,8 @@
+// Root build — repositories only; each subproject applies its own platform plugin
+subprojects {
+    repositories {
+        maven { url = 'https://maven.neoforged.net/releases' }
+        maven { url = 'https://maven.fabricmc.net/' }
+        mavenCentral()
+    }
+}

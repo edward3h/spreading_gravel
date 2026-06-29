@@ -1,0 +1,83 @@
+plugins {
+    id 'net.neoforged.gradle.userdev' version '7.0.171'
+}
+
+java {
+    toolchain.languageVersion = JavaLanguageVersion.of(21)
+}
+
+// Include common's source files directly in the neoforge source set so that
+// common and neoforge code compile into a SINGLE module. This avoids JPMS module
+// isolation (which would prevent SpreadingGravelNeoForge from accessing
+// SpreadingGravelBlock across module boundaries in the dev run).
+sourceSets {
+    main {
+        java {
+            srcDir project(':common').file('src/main/java')
+        }
+        resources {
+            srcDir project(':common').file('src/main/resources')
+        }
+    }
+}
+
+runs {
+    configureEach {
+        modSource sourceSets.main
+    }
+}
+
+dependencies {
+    implementation "net.neoforged:neoforge:${neoforge_version}"
+}
+
+// NeoForge Gradle 7.0.x fails to wire the NeoForm deobfuscated Minecraft binary
+// and the NeoForge API (net.neoforged.*) onto the compileClasspath via its SDK
+// mechanism. Wire them manually so javac can resolve all MC and NeoForge symbols.
+// MAINTENANCE: task names 'neoFormRename' and 'neoFormRecompile' are NeoForge Gradle
+// internals — re-verify with `./gradlew :neoforge:tasks --all | grep neoForm` after
+// any NeoForge Gradle version update.
+afterEvaluate {
+    def renameTask = tasks.named('neoFormRename')
+    def recompileTask = tasks.named('neoFormRecompile')
+    sourceSets.main.compileClasspath += files(renameTask.get().outputs.files)
+    sourceSets.main.compileClasspath += files(recompileTask.get().destinationDirectory)
+    compileJava.dependsOn(renameTask, recompileTask)
+}
+
+// The NeoForge API classes (net.neoforged.neoforge.*, net.neoforged.fml.*)
+// live in the "universal" classifier jar, which the ng_dummy_ng stub jar does NOT
+// include. Resolve it through a dedicated detached config to add it to compileClasspath.
+configurations {
+    neoforgeUniversalCompile {
+        canBeConsumed = false
+        canBeResolved = true
+    }
+}
+dependencies {
+    neoforgeUniversalCompile("net.neoforged:neoforge:${neoforge_version}") {
+        artifact {
+            classifier = 'universal'
+            type = 'jar'
+        }
+        transitive = false
+    }
+}
+sourceSets.main.compileClasspath += configurations.neoforgeUniversalCompile
+
+jar {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
+
+processResources {
+    def replaceProperties = [
+        mod_version                  : mod_version,
+        neoforge_loader_version_range: neoforge_loader_version_range,
+        neoforge_version_range       : neoforge_version_range,
+        minecraft_version_range      : minecraft_version_range
+    ]
+    inputs.properties replaceProperties
+    filesMatching('META-INF/neoforge.mods.toml') {
+        expand replaceProperties
+    }
+}

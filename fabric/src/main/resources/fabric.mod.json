@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 1,
+  "id": "spreading_gravel",
+  "version": "${mod_version}",
+  "name": "Spreading Gravel",
+  "description": "Adds Spreading Gravel, a gravity block that flows sideways toward the deepest nearby drop.",
+  "authors": ["edward3h"],
+  "license": "MIT",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "net.ethelred.spreading_gravel.fabric.SpreadingGravelFabric"
+    ]
+  },
+  "depends": {
+    "fabricloader": ">=0.16.0",
+    "minecraft": "~1.21.1"
+  }
+}
