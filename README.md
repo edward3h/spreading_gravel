@@ -34,6 +34,10 @@ Combine 3 Gravel and 1 Sand in any arrangement (shapeless recipe). The recipe is
 ./gradlew :common:test
 ```
 
+## Credits
+
+Block texture by [foxgames1](https://github.com/foxgames1).
+
 ## Licence
 
 Apache 2.0 — see [LICENSE](LICENSE).
