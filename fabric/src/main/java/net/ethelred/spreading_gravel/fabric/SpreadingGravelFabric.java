@@ -3,10 +3,12 @@ package net.ethelred.spreading_gravel.fabric;
 import net.ethelred.spreading_gravel.ModContent;
 import net.ethelred.spreading_gravel.SpreadingGravelBlock;
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -33,5 +35,8 @@ public class SpreadingGravelFabric implements ModInitializer {
             item
         );
         ModContent.SPREADING_GRAVEL_ITEM = () -> item;
+
+        ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.FUNCTIONAL_BLOCKS)
+            .register(entries -> entries.accept(item));
     }
 }

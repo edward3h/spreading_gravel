@@ -4,11 +4,13 @@ import net.ethelred.spreading_gravel.ModContent;
 import net.ethelred.spreading_gravel.SpreadingGravelBlock;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.common.Mod;
+import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
 @Mod("spreading_gravel")
@@ -28,6 +30,12 @@ public class SpreadingGravelNeoForge {
         ModContent.SPREADING_GRAVEL_ITEM = items.register("spreading_gravel",
             () -> new BlockItem(ModContent.SPREADING_GRAVEL.get(), new Item.Properties())
         );
+
+        modEventBus.addListener((BuildCreativeModeTabContentsEvent event) -> {
+            if (event.getTabKey() == CreativeModeTabs.FUNCTIONAL_BLOCKS) {
+                event.accept(ModContent.SPREADING_GRAVEL_ITEM.get());
+            }
+        });
 
         blocks.register(modEventBus);
         items.register(modEventBus);
