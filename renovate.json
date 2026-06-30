@@ -1,0 +1,28 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["config:recommended"],
+  "gradle": {
+    "registryUrls": [
+      "https://maven.fabricmc.net",
+      "https://maven.neoforged.net/releases"
+    ]
+  },
+  "packageRules": [
+    {
+      "description": "Minecraft platform deps (NeoForge, Fabric loader/API) — open PRs but no automerge",
+      "matchManagers": ["gradle"],
+      "matchPackagePatterns": [
+        "^net\\.neoforged",
+        "^net\\.fabricmc"
+      ],
+      "automerge": false,
+      "labels": ["dependencies", "minecraft-platform"]
+    },
+    {
+      "description": "Minecraft version — never auto-update, requires manual mod port",
+      "matchManagers": ["gradle"],
+      "matchPackageNames": ["com.mojang:minecraft"],
+      "enabled": false
+    }
+  ]
+}
