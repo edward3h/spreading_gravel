@@ -104,6 +104,7 @@ publishMods {
         projectId = rootProject.modrinth_project_id
         projectDescription = rootProject.file("description.md").text
         minecraftVersions.add(rootProject.minecraft_version)
+        environment = CLIENT_AND_SERVER
     }
 
     curseforge {
