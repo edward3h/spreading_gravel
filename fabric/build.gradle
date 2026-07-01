@@ -71,6 +71,8 @@ publishMods {
         accessToken = env.fetchOrNull("CURSEFORGE_TOKEN")
         projectId = rootProject.curseforge_project_id
         minecraftVersions.add(rootProject.minecraft_version)
+        client = true
+        server = true
         requires("fabric-api")
     }
 
