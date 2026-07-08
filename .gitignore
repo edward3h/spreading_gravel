@@ -5,3 +5,6 @@ logs/
 runs/
 .env
 
+supertool
+fabric/run
+.serena
