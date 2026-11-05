@@ -689,7 +689,7 @@ Or open in any image editor, apply a warm orange/brown hue shift, and save as a 
 ### Task 13: Loot table
 
 **Files:**
-- Create: `common/src/main/resources/data/spreading_gravel/loot/blocks/spreading_gravel.json`
+- Create: `common/src/main/resources/data/spreading_gravel/loot_table/blocks/spreading_gravel.json`
 
 - [ ] **Step 1: Write loot table**
 
@@ -715,7 +715,7 @@ Or open in any image editor, apply a warm orange/brown hue shift, and save as a 
 }
 ```
 
-> **Note:** Directory is `loot/blocks/`, not `loot_tables/blocks/` — this changed in MC 1.21.
+> **Note:** Directory is `loot_table/blocks/`, not `loot_tables/blocks/` — the plural became singular in MC 1.21.
 
 - [ ] **Step 2: Commit all resources**
 
@@ -831,7 +831,7 @@ Expected lines include:
 - `net/ethelred/spreading_gravel/SpreadingGravelBlock.class`
 - `assets/spreading_gravel/textures/block/spreading_gravel.png`
 - `data/spreading_gravel/recipes/spreading_gravel.json`
-- `data/spreading_gravel/loot/blocks/spreading_gravel.json`
+- `data/spreading_gravel/loot_table/blocks/spreading_gravel.json`
 - `pack.mcmeta`
 
 If `pack.mcmeta` or `assets/` or `data/` are missing, the `processResources { from … }` wiring in `neoforge/build.gradle` needs to be corrected.
