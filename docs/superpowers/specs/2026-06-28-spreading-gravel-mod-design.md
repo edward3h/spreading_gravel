@@ -43,7 +43,7 @@ spreading_gravel/
 │           ├── pack.mcmeta
 │           └── data/spreading_gravel/
 │               ├── recipes/spreading_gravel.json
-│               └── loot/blocks/spreading_gravel.json
+│               └── loot_table/blocks/spreading_gravel.json
 ├── neoforge/
 │   └── src/main/
 │       ├── java/net/ethelred/spreading_gravel/neoforge/
@@ -168,7 +168,7 @@ All assets live in `common` and are shared between both platform jars.
 | Item model | Standard block item referencing block model |
 | Blockstate | Single variant (no directional states) |
 | Lang | `"block.spreading_gravel.spreading_gravel": "Spreading Gravel"` |
-| Loot table | `loot/blocks/spreading_gravel.json` — self-drop (same pattern as vanilla gravel: drops itself, no fortune/silk-touch special cases). Note: in 1.21.1 the directory is `loot/`, not the legacy `loot_tables/`. |
+| Loot table | `loot_table/blocks/spreading_gravel.json` — self-drop (same pattern as vanilla gravel: drops itself, no fortune/silk-touch special cases). Note: in 1.21.1 the directory is `loot_table/` (singular), not the legacy `loot_tables/`. |
 
 **Water displacement**: when `best.adjacent` contains water, `FallingBlockEntity.fall` overwrites it with air before spawning the entity. This matches vanilla gravel behaviour and is intentional — Spreading Gravel displaces water as it moves.
 
